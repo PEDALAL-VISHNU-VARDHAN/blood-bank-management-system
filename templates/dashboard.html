@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Dashboard</title>
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<style>
+
+/* 🌍 BACKGROUND IMAGE ADDED */
+body{
+    background: url("/static/images/blood_bg.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* 🌫 OVERLAY FOR CLARITY */
+.page-overlay{
+    background: rgba(255,255,255,0.6);
+    min-height: 100vh;
+    padding-bottom: 30px;
+}
+
+.navbar{background:#dc3545;}
+
+.card{
+    transition:0.3s;
+    border-radius:15px;
+}
+.card:hover{
+    transform:scale(1.05);
+}
+
+/* ✨ Quote styling */
+.quote{
+    text-align:center;
+    font-size:18px;
+    font-weight:500;
+    color:#555;
+    margin-top:15px;
+    font-style:italic;
+}
+
+/* 🔘 Toggle button */
+.toggle-btn{
+    border-radius:25px;
+    padding:6px 20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- 🌫 WRAPPER START -->
+<div class="page-overlay">
+
+<nav class="navbar navbar-dark px-3">
+<span class="navbar-brand">Blood Bank Dashboard</span>
+
+<div>
+<a href="/dashboard" class="btn btn-light btn-sm me-2">Home</a>
+<a href="/logout" class="btn btn-dark btn-sm">Logout</a>
+</div>
+</nav>
+
+<div class="container mt-4">
+
+<h3>Welcome {{ name }}</h3>
+
+<!-- 💬 QUOTE -->
+<div class="quote">
+    ❤️ "Donate Blood and Save Lives"
+</div>
+
+<!-- 🟢 STATUS + TOGGLE -->
+<div class="text-center mt-3">
+
+    <p>
+        Status: 
+        {% if availability == "Available" %}
+            <span class="badge bg-success">Online</span>
+        {% else %}
+            <span class="badge bg-secondary">Offline</span>
+        {% endif %}
+    </p>
+
+    <form method="POST" action="/toggle_status">
+        <button class="btn btn-danger toggle-btn">
+            Toggle Availability
+        </button>
+    </form>
+
+</div>
+
+<div class="row mt-4">
+
+<div class="col-md-3 mb-3">
+<div class="card p-3 shadow text-center">
+<h5>Profile</h5>
+<a href="/profile" class="btn btn-success w-100">Open</a>
+</div>
+</div>
+
+<div class="col-md-3 mb-3">
+<div class="card p-3 shadow text-center">
+<h5>Donors</h5>
+<a href="/donors" class="btn btn-primary w-100">Open</a>
+</div>
+</div>
+
+<div class="col-md-3 mb-3">
+<div class="card p-3 shadow text-center">
+<h5>Request</h5>
+<a href="/request" class="btn btn-warning w-100">Open</a>
+</div>
+</div>
+
+<div class="col-md-3 mb-3">
+<div class="card p-3 shadow text-center">
+<h5>Feedback</h5>
+<a href="/feedback" class="btn btn-danger w-100">Open</a>
+</div>
+</div>
+
+<div class="col-md-3 mb-3">
+<div class="card p-3 shadow text-center">
+<h5>About Us</h5>
+<a href="/about" class="btn btn-secondary w-100">Open</a>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- 🌫 WRAPPER END -->
+
+</body>
+</html>

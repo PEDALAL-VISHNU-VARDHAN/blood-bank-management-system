@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="mb-3">Matched Donors</h3>
+
+<p>
+<span class="badge bg-danger">{{blood_group}}</span>
+<span class="badge bg-info">{{type}}</span>
+</p>
+
+<style>
+.rank-1 { background:#d4edda !important; font-weight:bold; }
+.rank-2 { background:#fff3cd !important; }
+.rank-3 { background:#f8d7da !important; }
+.rank-badge {
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+</style>
+
+<table class="table table-bordered table-striped text-center align-middle">
+
+<tr class="table-dark">
+<th>Rank</th>
+<th>Name</th>
+<th>Blood</th>
+<th>Phone</th>
+<th>Location</th>
+<th>Status</th>
+</tr>
+
+{% for d in donors %}
+<tr class="
+{% if loop.index == 1 %}rank-1
+{% elif loop.index == 2 %}rank-2
+{% elif loop.index == 3 %}rank-3
+{% endif %}
+">
+
+<!-- 🏆 RANK COLUMN -->
+<td>
+    {% if loop.index == 1 %}
+        <span class="badge bg-success rank-badge">🥇 1st</span>
+    {% elif loop.index == 2 %}
+        <span class="badge bg-warning text-dark rank-badge">🥈 2nd</span>
+    {% elif loop.index == 3 %}
+        <span class="badge bg-danger rank-badge">🥉 3rd</span>
+    {% else %}
+        <span class="badge bg-secondary rank-badge">{{ loop.index }}th</span>
+    {% endif %}
+</td>
+
+<!-- 👤 NAME -->
+<td>
+    {{ d[0] }}
+    {% if loop.index == 1 %}
+        <span class="badge bg-success ms-1">Best Match</span>
+    {% endif %}
+</td>
+
+<!-- 🩸 BLOOD -->
+<td><span class="badge bg-danger">{{ d[1] }}</span></td>
+
+<!-- 📞 PHONE -->
+<td>{{ d[2] }}</td>
+
+<!-- 📍 LOCATION -->
+<td>{{ d[3] }}</td>
+
+<!-- 🟢 STATUS -->
+<td>
+{% if d[4] == "Available" %}
+    <span class="badge bg-success">Available</span>
+{% else %}
+    <span class="badge bg-secondary">Offline</span>
+{% endif %}
+</td>
+
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="mb-3">Donor List</h3>
+
+<table class="table table-bordered table-striped">
+<tr class="table-dark">
+<th>Name</th>
+<th>Blood</th>
+<th>Phone</th>
+<th>Location</th>
+<th>Status</th>
+</tr>
+
+{% for d in donors %}
+<tr>
+<td>{{d[0]}}</td>
+<td><span class="badge bg-danger">{{d[1]}}</span></td>
+<td>{{d[2]}}</td>
+<td>{{d[3]}}</td>
+<td>
+{% if d[4]=="Available" %}
+<span class="badge bg-success">Available</span>
+{% else %}
+<span class="badge bg-secondary">Offline</span>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}
