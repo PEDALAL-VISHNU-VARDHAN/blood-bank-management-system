@@ -53,7 +53,6 @@ body{
 
 <body>
 
-<!-- 🌫 WRAPPER START -->
 <div class="page-overlay">
 
 <nav class="navbar navbar-dark px-3">
@@ -78,19 +77,55 @@ body{
 <div class="text-center mt-3">
 
     <p>
-        Status: 
-        {% if availability == "Available" %}
-            <span class="badge bg-success">Online</span>
+    Status: 
+    {% if availability == "Available" %}
+        <span class="badge bg-success">Online</span>
+
+    {% elif availability == "Eligible" %}
+        <span class="badge bg-info">Eligible</span>
+
+    {% elif availability == "Not Eligible" %}
+        <span class="badge bg-warning text-dark">Not Eligible</span>
+
+    {% else %}
+        <span class="badge bg-secondary">Offline</span>
+    {% endif %}
+    </p>
+
+    <!-- 🧠 HEALTH STATUS (NEW) -->
+    <p>
+        Health:
+        {% if health_status == "Fit" %}
+            <span class="badge bg-success">Fit</span>
+        {% elif health_status == "Unfit" %}
+            <span class="badge bg-danger">Unfit</span>
         {% else %}
-            <span class="badge bg-secondary">Offline</span>
+            <span class="badge bg-secondary">Pending</span>
         {% endif %}
     </p>
 
+    <!-- 💰 COINS (NEW) -->
+    <p>
+        Coins: <span class="badge bg-primary">{{ coins }} 🪙</span>
+    </p>
+
     <form method="POST" action="/toggle_status">
-        <button class="btn btn-danger toggle-btn">
+        <button class="btn btn-danger toggle-btn"
+        {% if availability == "Not Eligible" or health_status != "Fit" %}
+            disabled
+        {% endif %}>
             Toggle Availability
         </button>
     </form>
+
+    <!-- ⚠ MESSAGE -->
+    {% if availability == "Not Eligible" %}
+    <p class="text-danger mt-2">You cannot donate yet (interval not completed)</p>
+    {% endif %}
+
+    {% if health_status == "Unfit" %}
+    <p class="text-danger mt-2">Health not approved for donation</p>
+    {% endif %}
 
 </div>
 
@@ -136,7 +171,6 @@ body{
 </div>
 
 </div>
-<!-- 🌫 WRAPPER END -->
 
 </body>
 </html>

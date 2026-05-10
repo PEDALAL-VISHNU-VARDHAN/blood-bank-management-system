@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% block content %}
 
@@ -19,10 +20,10 @@
 <td>{{d[2]}}</td>
 <td>{{d[3]}}</td>
 <td>
-{% if d[4]=="Available" %}
-<span class="badge bg-success">Available</span>
+{% if d[4] == "Available" %}
+    <span class="badge bg-success">Available</span>
 {% else %}
-<span class="badge bg-secondary">Offline</span>
+    <span class="badge bg-secondary">Unavailable</span>
 {% endif %}
 </td>
 </tr>

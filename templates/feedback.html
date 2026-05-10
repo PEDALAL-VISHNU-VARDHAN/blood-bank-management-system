@@ -49,18 +49,21 @@ body {
 
 <form method="POST" action="/submit_feedback" enctype="multipart/form-data">
 
-<textarea name="message" class="form-control mb-3" placeholder="Describe your issue..." required></textarea>
+<textarea 
+name="message" 
+class="form-control mb-3" 
+placeholder="Describe your issue..." 
+required>
+</textarea>
 
-<input type="file" name="image" class="form-control mb-3">
+<input 
+type="file" 
+name="image" 
+class="form-control mb-3">
 
-<div class="col-md-4">
-<div class="card p-3 shadow text-center">
-<h5>Feedback</h5>
-<a href="/feedback" class="btn btn-danger mt-2">Open</a>
-</div>
-</div>
-
-<button class="btn btn-danger w-100">Submit</button>
+<button class="btn btn-danger w-100">
+Submit
+</button>
 
 </form>
 

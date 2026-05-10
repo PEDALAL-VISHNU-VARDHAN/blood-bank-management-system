@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin Feedback</title>
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<style>
+
+/* 🌍 BACKGROUND IMAGE */
+body{
+    background:url("/static/images/blood_bg.png") no-repeat center center fixed;
+    background-size:cover;
+    font-family:Arial,sans-serif;
+    color:#0A2540;
+}
+
+/* 🌫 OVERLAY */
+.page-overlay{
+    background:rgba(248,250,252,0.90);
+    min-height:100vh;
+    padding-bottom:40px;
+}
+
+/* 🎯 PAGE TITLE */
+h2{
+    color:#0F172A;
+    font-weight:700;
+    font-size:44px;
+}
+
+/* 📦 TABLE DESIGN */
+.table{
+    background:#FFFFFF;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 6px 25px rgba(15,23,42,0.08);
+}
+
+/* 🔥 TABLE HEAD */
+.table th{
+    background:#0F172A;
+    color:#F8FAFC;
+    border:none;
+    padding:16px;
+    font-size:16px;
+}
+
+/* 📄 TABLE BODY */
+.table td{
+    vertical-align:middle;
+    padding:16px;
+    border-color:#D6D3D1;
+    color:#475569;
+    background:#FFFFFF;
+}
+
+/* 🔘 BUTTONS */
+.btn{
+    border-radius:10px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+/* 🔵 PRIMARY BUTTON */
+.btn-primary{
+    background:#2563EB;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#1D4ED8;
+    transform:translateY(-2px);
+}
+
+/* ⚫ SECONDARY BUTTON */
+.btn-secondary{
+    background:#64748B;
+    border:none;
+    color:white;
+    border-radius:10px;
+    font-weight:600;
+    transition:0.3s;
+    padding:10px 18px;
+}
+
+.btn-secondary:hover{
+    background:#475569;
+    transform:translateY(-2px);
+}
+
+/* ⚪ NO IMAGE TEXT */
+.no-image{
+    color:#94A3B8;
+    font-style:italic;
+}
+
+/* 📱 RESPONSIVE */
+@media(max-width:768px){
+
+    h2{
+        font-size:32px;
+    }
+
+    .table{
+        font-size:14px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- 🌫 OVERLAY START -->
+<div class="page-overlay">
+
+<div class="container mt-4">
+
+<h2 class="mb-4">
+User Feedback
+</h2>
+
+<!-- ✅ BACK BUTTON -->
+<div class="d-flex justify-content-end mb-3">
+
+<a href="/admin_dashboard"
+class="btn btn-secondary">
+
+← Back
+
+</a>
+
+</div>
+
+<table class="table table-bordered">
+
+<tr>
+<th>User</th>
+<th>Message</th>
+<th>Image</th>
+<th>Date</th>
+</tr>
+
+{% for f in feedbacks %}
+
+<tr>
+
+<td>{{ f[0] }}</td>
+
+<td>{{ f[1] }}</td>
+
+<td>
+
+{% if f[2] %}
+
+<a href="/static/uploads/{{ f[2] }}"
+target="_blank"
+class="btn btn-primary btn-sm">
+
+View Image
+
+</a>
+
+{% else %}
+
+<span class="no-image">
+No Image
+</span>
+
+{% endif %}
+
+</td>
+
+<td>{{ f[3] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</div>
+<!-- 🌫 OVERLAY END -->
+
+</body>
+
+</html>

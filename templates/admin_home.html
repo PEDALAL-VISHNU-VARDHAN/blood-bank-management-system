@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+/* 🌍 BACKGROUND IMAGE */
+body{
+background:url("/static/images/blood_bg.png") no-repeat center center fixed;
+background-size:cover;
+font-family:Arial,sans-serif;
+}
+
+/* 🌫 OVERLAY */
+.page-overlay{
+background:rgba(248,250,252,0.88);
+min-height:100vh;
+}
+
+/* 🔥 NAVBAR */
+.navbar{
+background:#2563EB !important;
+}
+
+/* 🏷 NAVBAR TITLE */
+.navbar-brand{
+font-size:30px;
+font-weight:bold;
+color:#FFFFFF !important;
+}
+
+/* 🚪 LOGOUT BUTTON */
+.btn-dark{
+background:#0F172A;
+border:none;
+border-radius:10px;
+padding:8px 18px;
+transition:0.3s;
+}
+
+.btn-dark:hover{
+background:#1E293B;
+}
+
+/* 🎯 MAIN TITLE */
+h3{
+color:#0A2540;
+font-size:48px;
+font-weight:700;
+}
+
+/* 📦 CARD */
+.card{
+transition:0.3s;
+cursor:pointer;
+border:none;
+border-radius:22px;
+background:#FFFFFF;
+box-shadow:0 6px 25px rgba(15,23,42,0.08);
+padding:40px 25px;
+}
+
+/* ✨ CARD HOVER */
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 12px 35px rgba(37,99,235,0.18);
+}
+
+/* 📝 CARD TITLE */
+.card h4{
+color:#0F172A;
+font-weight:700;
+margin-bottom:15px;
+}
+
+/* 📄 CARD TEXT */
+.card p{
+color:#475569;
+font-size:18px;
+}
+
+/* 🎨 TOP BORDER COLORS */
+.col-md-6:first-child .card{
+border-top:5px solid #2563EB;
+}
+
+.col-md-6:last-child .card{
+border-top:5px solid #15803D;
+}
+
+/* 📱 RESPONSIVE */
+@media(max-width:768px){
+
+h3{
+font-size:36px;
+}
+
+.card{
+margin-bottom:20px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 🌫 OVERLAY START -->
+<div class="page-overlay">
+
+<nav class="navbar navbar-dark bg-danger px-3">
+
+<span class="navbar-brand">
+Admin Panel
+</span>
+
+<div>
+<a href="/admin_logout" class="btn btn-dark btn-sm">
+Logout
+</a>
+</div>
+
+</nav>
+
+<div class="container mt-5 text-center">
+
+<h3 class="mb-4">
+Admin Control Center
+</h3>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card p-4 shadow"
+onclick="location.href='/admin_dashboard'">
+
+<h4>Donor Verification</h4>
+
+<p>
+Verify donations & manage coins
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card p-4 shadow"
+onclick="location.href='/health_dashboard'">
+
+<h4>Health Reports</h4>
+
+<p>
+Approve or reject donor health
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- 🌫 OVERLAY END -->
+
+</body>
+</html>
