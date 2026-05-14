@@ -18,7 +18,7 @@ height:100vh;
 
 /* 🌫 OVERLAY */
 .overlay{
-background:rgba(255,255,255,0.6); /* lighter for clarity */
+background:rgba(255,255,255,0.6);
 min-height:100vh;
 display:flex;
 align-items:center;
@@ -43,20 +43,75 @@ width:500px;
 
 <div class="card shadow">
 
-<h3 class="text-center mb-3">Donor Registration</h3>
+<h3 class="text-center mb-3">
+Donor Registration
+</h3>
 
-<form method="POST" action="/register" enctype="multipart/form-data">
+<!-- FLASH MESSAGES -->
+{% with messages = get_flashed_messages() %}
 
-<input type="text" name="name" class="form-control mb-2" placeholder="Full Name" required>
+{% if messages %}
 
-<input type="text" name="address" class="form-control mb-2" placeholder="Address" required>
+{% for msg in messages %}
 
-<input type="text" name="phone" class="form-control mb-2" placeholder="Phone Number" required>
+<div class="alert alert-danger">
 
-<input type="email" name="email" class="form-control mb-2" placeholder="Email" required>
+{{ msg }}
 
-<select name="blood_group" class="form-control mb-2" required>
-<option value="" disabled selected>Select Blood Group</option>
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+{% endwith %}
+
+<form method="POST"
+action="/register"
+enctype="multipart/form-data">
+
+<!-- NAME -->
+<input 
+type="text"
+name="name"
+class="form-control mb-2"
+placeholder="Full Name"
+required>
+
+<!-- ADDRESS -->
+<input 
+type="text"
+name="address"
+class="form-control mb-2"
+placeholder="Address"
+required>
+
+<!-- PHONE -->
+<input 
+type="text"
+name="phone"
+class="form-control mb-2"
+placeholder="Phone Number"
+required>
+
+<!-- EMAIL -->
+<input 
+type="email"
+name="email"
+class="form-control mb-2"
+placeholder="Email"
+required>
+
+<!-- BLOOD GROUP -->
+<select 
+name="blood_group"
+class="form-control mb-2"
+required>
+
+<option value="" disabled selected>
+Select Blood Group
+</option>
+
 <option value="A+">A+</option>
 <option value="A-">A-</option>
 <option value="B+">B+</option>
@@ -65,27 +120,93 @@ width:500px;
 <option value="O-">O-</option>
 <option value="AB+">AB+</option>
 <option value="AB-">AB-</option>
+
 </select>
 
-<input type="number" name="age" class="form-control mb-2" placeholder="Age" required>
+<!-- AGE -->
+<input 
+type="number"
+name="age"
+class="form-control mb-2"
+placeholder="Age"
+required>
 
-<select name="gender" class="form-control mb-2" required>
-<option disabled selected>Select Gender</option>
-<option>Male</option>
-<option>Female</option>
-<option>Other</option>
+<!-- GENDER -->
+<select 
+name="gender"
+class="form-control mb-2"
+required>
+
+<option disabled selected>
+Select Gender
+</option>
+
+<option value="Male">
+Male
+</option>
+
+<option value="Female">
+Female
+</option>
+
+<option value="Other">
+Other
+</option>
+
 </select>
 
-<input type="number" name="weight" class="form-control mb-2" placeholder="Weight (kg)" required>
+<!-- WEIGHT -->
+<input 
+type="number"
+name="weight"
+class="form-control mb-2"
+placeholder="Weight (kg)"
+required>
 
-<label class="mt-2">Upload Blood Group Report</label>
-<input type="file" name="report" class="form-control mb-3" required>
+<!-- REPORT DATE -->
+<label class="mt-2">
+Blood Report Date
+</label>
 
-<input type="password" name="password" class="form-control mb-2" placeholder="Create Password" required>
+<input 
+type="date"
+name="report_date"
+class="form-control mb-2"
+required>
 
-<input type="password" name="confirm_password" class="form-control mb-3" placeholder="Re-enter Password" required>
+<!-- REPORT -->
+<label class="mt-2">
+Upload Blood Group Report
+</label>
 
-<button class="btn btn-danger w-100">Register</button>
+<input 
+type="file"
+name="report"
+class="form-control mb-3"
+required>
+
+<!-- PASSWORD -->
+<input 
+type="password"
+name="password"
+class="form-control mb-2"
+placeholder="Create Password"
+required>
+
+<!-- CONFIRM PASSWORD -->
+<input 
+type="password"
+name="confirm_password"
+class="form-control mb-3"
+placeholder="Re-enter Password"
+required>
+
+<!-- SUBMIT -->
+<button class="btn btn-danger w-100">
+
+Register
+
+</button>
 
 </form>
 

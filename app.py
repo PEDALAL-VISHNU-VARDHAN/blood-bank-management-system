@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, redirect, session
 import sqlite3
 import os
 from datetime import datetime, timedelta
-
+from flask import flash
+from datetime import datetime
 app = Flask(__name__)
 app.secret_key = "secret123"
 
@@ -339,26 +340,256 @@ def set_next_date(phone):
 @app.route("/signup")
 def signup():
     return render_template("signup.html")
-@app.route("/register", methods=["POST"])
+
+
+@app.route("/register", methods=["GET","POST"])
 def register():
+
+    # =========================
+    # OPEN SIGNUP PAGE
+    # =========================
+
+    if request.method == "GET":
+
+        return render_template("signup.html")
+
+    # =========================
+    # FORM DATA
+    # =========================
 
     data = request.form
 
+    name = data.get("name")
+    email = data.get("email")
+    phone = data.get("phone")
+    address = data.get("address")
+
+    blood_group = data.get("blood_group")
+
+    password = data.get("password")
+
+    confirm_password = data.get("confirm_password")
+
+    age = int(data.get("age"))
+
+    weight = int(data.get("weight"))
+
+    gender = data.get("gender")
+
+    report_date = data.get("report_date")
+
     report = request.files["report"]
 
-    filename = None
+    # =========================
+    # VALID BLOOD GROUPS
+    # =========================
 
-    if report and report.filename != "":
+    valid_blood_groups = [
+        "A+","A-",
+        "B+","B-",
+        "AB+","AB-",
+        "O+","O-"
+    ]
 
-        if not os.path.exists("static/uploads"):
-            os.makedirs("static/uploads")
+    # =========================
+    # NAME VALIDATION
+    # =========================
 
-        filename = report.filename
+    if len(name) < 3:
 
-        report.save("static/uploads/" + filename)
+        flash("Name must contain at least 3 characters")
 
-    conn = sqlite3.connect("database/database.db")
+        return redirect("/register")
+
+    # =========================
+    # PHONE VALIDATION
+    # =========================
+
+    if len(phone) != 10 or not phone.isdigit():
+
+        flash("Phone number must contain 10 digits")
+
+        return redirect("/register")
+
+    # =========================
+    # AGE VALIDATION
+    # =========================
+
+    if age < 18 or age > 60:
+
+        flash("Donor age must be between 18 and 60 years")
+
+        return redirect("/register")
+
+    # =========================
+    # GENDER VALIDATION
+    # =========================
+
+    if gender not in ["Male", "Female", "Other"]:
+
+        flash("Please select valid gender")
+
+        return redirect("/register")
+
+    # =========================
+    # WEIGHT VALIDATION
+    # =========================
+
+    if weight < 50:
+
+        flash("Weight must be above 50kg")
+
+        return redirect("/register")
+
+    # =========================
+    # PASSWORD VALIDATION
+    # =========================
+
+    if len(password) < 6:
+
+        flash("Password must contain at least 6 characters")
+
+        return redirect("/register")
+
+    # =========================
+    # PASSWORD MATCH CHECK
+    # =========================
+
+    if password != confirm_password:
+
+        flash("Passwords do not match")
+
+        return redirect("/register")
+
+    # =========================
+    # BLOOD GROUP VALIDATION
+    # =========================
+
+    if blood_group not in valid_blood_groups:
+
+        flash("Invalid blood group selected")
+
+        return redirect("/register")
+
+    # =========================
+    # REPORT VALIDATION
+    # =========================
+
+    if report.filename == "":
+
+        flash("Please upload blood report")
+
+        return redirect("/register")
+
+    # =========================
+    # REPORT DATE VALIDATION
+    # =========================
+
+    today = datetime.today()
+
+    report_date_obj = datetime.strptime(
+        report_date,
+        "%Y-%m-%d"
+    )
+
+    difference = (today - report_date_obj).days
+
+    if difference > 10:
+
+        flash("Blood report must be within 10 days")
+
+        return redirect("/register")
+
+    # =========================
+    # ALLOWED FILE TYPES
+    # =========================
+
+    allowed_extensions = [
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".pdf"
+    ]
+
+    file_ext = os.path.splitext(
+        report.filename
+    )[1].lower()
+
+    if file_ext not in allowed_extensions:
+
+        flash("Only PNG, JPG, JPEG and PDF files allowed")
+
+        return redirect("/register")
+
+    # =========================
+    # CREATE UPLOAD FOLDER
+    # =========================
+
+    if not os.path.exists("static/uploads"):
+
+        os.makedirs("static/uploads")
+
+    # =========================
+    # SAVE FILE
+    # =========================
+
+    filename = report.filename
+
+    report.save(
+        "static/uploads/" + filename
+    )
+
+    # =========================
+    # DATABASE CONNECTION
+    # =========================
+
+    conn = sqlite3.connect(
+        "database/database.db"
+    )
+
     cursor = conn.cursor()
+
+    # =========================
+    # EMAIL CHECK
+    # =========================
+
+    cursor.execute("""
+    SELECT * FROM donors
+    WHERE email=?
+    """, (email,))
+
+    existing_email = cursor.fetchone()
+
+    if existing_email:
+
+        conn.close()
+
+        flash("Email already registered")
+
+        return redirect("/register")
+
+    # =========================
+    # PHONE CHECK
+    # =========================
+
+    cursor.execute("""
+    SELECT * FROM donors
+    WHERE phone=?
+    """, (phone,))
+
+    existing_phone = cursor.fetchone()
+
+    if existing_phone:
+
+        conn.close()
+
+        flash("Phone number already registered")
+
+        return redirect("/register")
+
+    # =========================
+    # INSERT DONOR
+    # =========================
 
     cursor.execute("""
     INSERT INTO donors (
@@ -370,23 +601,34 @@ def register():
     availability,
     password,
     coins,
-    report
+    report,
+    health_status
     )
-    VALUES (?,?,?,?,?,?,?,?,?)
+    VALUES (?,?,?,?,?,?,?,?,?,?)
     """, (
-        data["name"],
-        data["email"],
-        data["phone"],
-        data["address"],
-        data["blood_group"],
+        name,
+        email,
+        phone,
+        address,
+        blood_group,
         "Unavailable",
-        data["password"],
+        password,
         0,
-        filename
+        filename,
+        "Pending"
     ))
 
     conn.commit()
+
     conn.close()
+
+    # =========================
+    # SUCCESS MESSAGE
+    # =========================
+
+    flash(
+    "Registration successful. Waiting for admin verification"
+    )
 
     return redirect("/login")
 # ---------------- LOGIN ----------------
